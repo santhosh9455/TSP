@@ -1,0 +1,60 @@
+<!-- Navbar -->
+
+<div class="flex min-h-screen bg-gray-100">
+  <!-- Sidebar -->
+
+  <!-- Main Content -->
+  <main class="flex-1 p-8">
+    <!-- Stat Cards -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+        <div class="text-2xl font-bold text-indigo-600">1,234</div>
+        <div class="text-gray-500">Total Students</div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+        <div class="text-2xl font-bold text-green-600">98%</div>
+        <div class="text-gray-500">Attendance Rate</div>
+      </div>
+      <div class="bg-white rounded-lg shadow p-6 flex flex-col items-center">
+        <div class="text-2xl font-bold text-blue-600">12</div>
+        <div class="text-gray-500">New Registrations</div>
+      </div>
+    </div>
+
+    <!-- Chart Section -->
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <h2 class="text-lg font-semibold mb-4 text-gray-700">Weekly Student Count</h2>
+      <div class="w-full max-w-3xl mx-auto">
+        <apx-chart
+          [series]="chartOptions.series"
+          [chart]="chartOptions.chart"
+          [xaxis]="chartOptions.xaxis"
+          [dataLabels]="chartOptions.dataLabels"
+          [title]="chartOptions.title"
+          [fill]="chartOptions.fill"
+          [tooltip]="chartOptions.tooltip"
+          [plotOptions]="chartOptions.plotOptions">
+        </apx-chart>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="bg-white rounded-lg shadow p-6">
+      <h2 class="text-lg font-semibold mb-4 text-gray-700">Recent Activity</h2>
+      <ul class="divide-y divide-gray-200">
+        <li class="py-2 flex items-center justify-between">
+          <span class="text-gray-600">John Doe registered</span>
+          <span class="text-xs text-gray-400">2 hours ago</span>
+        </li>
+        <li class="py-2 flex items-center justify-between">
+          <span class="text-gray-600">Attendance updated for class 10A</span>
+          <span class="text-xs text-gray-400">4 hours ago</span>
+        </li>
+        <li class="py-2 flex items-center justify-between">
+          <span class="text-gray-600">New event: Science Fair</span>
+          <span class="text-xs text-gray-400">1 day ago</span>
+        </li>
+      </ul>
+    </div>
+  </main>
+</div>

@@ -1,0 +1,6 @@
+.router-link-active{
+    background-color: var(--color-gray-700);
+}
+.router-link-active svg{
+    color: var(--color-white);
+}

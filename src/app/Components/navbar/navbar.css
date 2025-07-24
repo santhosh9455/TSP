@@ -1,0 +1,7 @@
+.router-link-active{
+    color: blue;
+}
+.router-link-active-Register{
+    color: blue;
+    background-color: rgb(240, 248, 255);
+}

@@ -1,0 +1,41 @@
+<nav class="sticky top-0 z-50 bg-gray-900 scroll:bg-gray-900/70 backdrop-blur-md text-white shadow-md">
+    <div class=" px-4 sm:px-6 lg:px-8" style="margin-left: -27px;">
+        <div class="flex justify-between items-center h-16">
+
+            <!-- Left: Show Navigation Button + Logo -->
+            <div  class="flex  items-center space-x-4">
+                <!-- Show Navigation Icon Button -->
+                <button *ngIf="isLoggedIn()"  (click)="onToggleSidebar()"
+                    class="text-white hover:bg-gray-800 p-2 rounded-md focus:outline-none focus:ring-2 focus:ring-white"
+                    aria-label="Open sidebar">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
+                    </svg>
+                </button>
+
+                <!-- Logo -->
+                <a  class="text-xl font-bold ml-1.5 text-white">Student Management System</a>
+            </div>
+
+            <!-- Desktop Menu (Right-aligned) -->
+            <div
+                class="font-bold flex flex-col md:flex-row md:items-center md:justify-between space-y-4 md:space-y-0 md:space-x-6">
+                <ng-container  *ngIf="!isLoggedIn()">
+                    <button class="block md:hidden">☰ Menu</button>
+                </ng-container>
+                
+                <app-sidebar [routerLink]="['/home']" routerLinkActive="router-link-active"
+                    class="hover:text-blue-700 transition">Home</app-sidebar>
+                <a [routerLink]="['/about']" routerLinkActive="router-link-active"
+                    class="hover:text-blue-700 transition">About</a>
+                <a [routerLink]="['/contact']" routerLinkActive="router-link-active"
+                    class="hover:text-blue-700 transition">Contact</a>
+                <a [routerLink]="['/register']" routerLinkActive="router-link-active-Register"
+                    class="bg-blue-600 rounded-3xl px-4 py-2 transition">Register</a>
+                <a [routerLink]="['/login']" routerLinkActive="router-link-active"
+                    class="hover:text-blue-700 transition">Login</a>
+            </div>
+        </div>
+    </div>
+</nav>

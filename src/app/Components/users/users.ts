@@ -1,28 +1,35 @@
-import { Component } from '@angular/core';
+import { Component , ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
 import { UsersService,UsersResDto } from '../../Services/Admin/users-service';
+import { FormsModule } from '@angular/forms';
+import { debounceTime, Subject } from 'rxjs';
+import { NewUser } from '../../Models/UserModel/new-user/new-user';
 
 @Component({
   selector: 'app-users',
   standalone:true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, NewUser],
   templateUrl: './users.html',
   styleUrl: './users.css'
 })
 export class Users {
+  
+  
 
+  searchChanged: Subject<string> = new Subject();
 
   users: UsersResDto[] = [];
   search: string = '';
   roleId?: number;
   page = 0;
-  size = 10;
+  size = 5;
   totalPages = 0;
   
   constructor(private userService: UsersService) {}
 
   ngOnInit(): void {
+    console.log("User Component called");
+    
     this.fetchUsers();
   }
 
@@ -34,9 +41,12 @@ export class Users {
   }
  
 
-  onSearch(): void {
+  onSearch($event:any): void {
     this.page = 0;
-    this.fetchUsers();
+    this.searchChanged.next($event)
+    this.searchChanged.pipe(debounceTime(200)).subscribe(value => {
+      this.fetchUsers();
+    });
   }
 
   nextPage(): void {
@@ -46,6 +56,12 @@ export class Users {
     }
   }
 
+   onPageSizeChange($event: any) {
+    this.size = $event;
+    this.page = 0;
+    this.fetchUsers();
+  }
+  
   previousPage(): void {
     if (this.page > 0) {
       this.page--;
@@ -53,4 +69,12 @@ export class Users {
     }
   }
 
+   @ViewChild(NewUser) modal!: NewUser;
+
+
+  newUserModel(){
+    console.log("New User model method called from user component");
+    
+    this.modal.open();
+  }
 }

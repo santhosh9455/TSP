@@ -10,6 +10,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { Login } from './Components/login/login';
 import { Home } from './Components/home/home';
 import { Register } from './Components/register/register';
+import { Footer } from "./Components/footer/footer";
 
 @Component({
   selector: 'app-root',
@@ -18,8 +19,7 @@ import { Register } from './Components/register/register';
     Sidebar,
     RouterOutlet,
     CommonModule,
-    HttpClientModule,
-    ],
+    HttpClientModule, Footer],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

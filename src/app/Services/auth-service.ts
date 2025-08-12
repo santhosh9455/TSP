@@ -79,14 +79,13 @@ export class AuthService {
     }
   }
 
-  getAuthHeaders() {
+  getAuthHeaders(): HttpHeaders {
     const token = this.getToken();
-    return {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    };
+    return new HttpHeaders({
+      Authorization: `Bearer ${token}`
+    });
   }
+  
   storeToken(token: string): void {
     sessionStorage.setItem('authToken', token);
   }

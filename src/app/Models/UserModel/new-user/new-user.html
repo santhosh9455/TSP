@@ -1,0 +1,91 @@
+<!-- Main modal -->
+<div *ngIf="showModal" id="crud-modal" tabindex="-1" aria-hidden="true"
+    class="fixed w-full md:w-full mx-auto inset-0 z-50 flex justify-center items-center overflow-y-auto backdrop-blur-sm bg-black/40 px-4 py-10">
+
+    <div class="relative w-full max-w-md">
+        <!-- Modal content -->
+        <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
+            <!-- Modal header -->
+            <div class="flex items-center justify-between p-4 md:p-5 border-b bg-blue-700 border-gray-900 rounded-t">
+                <h3 class="text-lg font-semibold text-gray-100 dark:text-white">
+                    Create New User
+                </h3>
+                <button (click)="close()" type="button"
+                    class="text-gray-400 hover:text-gray-900 bg-transparent hover:bg-gray-200 rounded-lg text-sm w-8 h-8 inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white">
+                    <svg class="w-3 h-3" fill="none" viewBox="0 0 14 14" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M1 1l6 6m0 0l6 6M7 7l6-6M7 7L1 13" />
+                    </svg>
+                </button>
+            </div>
+
+            <!-- Modal body -->
+            <form [formGroup]="NewUserDto" (ngSubmit)="createUser()" class="p-4 md:p-5 space-y-4">
+
+                <div>
+                    <label for="name"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Username</label>
+                    <input formControlName="username" type="text" name="name" id="name" placeholder="Username" required
+                        class="w-full p-2.5 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white" />
+                    <div *ngIf="NewUserDto.get('username')?.touched && NewUserDto.get('username')?.invalid">
+                        <span class="text-red-600 text-sm">Username is required</span>
+                    </div>
+                </div>
+
+                <!-- Password Field with Eye Toggle -->
+                <div>
+                    <label for="password"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Password</label>
+                    <div class="relative">
+                        <input [type]="showPassword ? 'text' : 'password'" formControlName="password" id="password"
+                            placeholder="Type your password"
+                            class="w-full p-2.5 pr-10 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white" />
+
+                        <!-- Eye Icon -->
+                        <button type="button" (click)="togglePassword()"
+                            class="absolute inset-y-0 right-0 flex items-center px-3 text-gray-500 dark:text-gray-300">
+                            <svg *ngIf="!showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M15 12a3 3 0 11-6 0 3 3 0 016 0zm-9.88 2.12a9.94 9.94 0 01-1.12-2.12 10.05 10.05 0 0116 0c-.27.59-.62 1.13-1.03 1.61M4.12 16.88A9.941 9.941 0 0112 21c2.21 0 4.25-.72 5.88-1.88M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                            </svg>
+                            <svg *ngIf="showPassword" xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none"
+                                viewBox="0 0 24 24" stroke="currentColor">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M13.875 18.825A10.05 10.05 0 0112 19c-2.21 0-4.25-.72-5.88-1.88M6.28 6.28a9.94 9.94 0 00-2.16 2.12 10.05 10.05 0 0016 0c-.27-.59-.62-1.13-1.03-1.61M3 3l18 18" />
+                            </svg>
+                        </button>
+                    </div>
+                    <div *ngIf="NewUserDto.get('password')?.touched && NewUserDto.get('password')?.invalid">
+                        <span class="text-red-600 text-sm">Password is required</span>
+                    </div>
+                </div>
+
+                <div>
+                    <label for="category"
+                        class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Role</label>
+                    <select placeholder="Select Role" name="roleId" formControlName="roleId" id="roleId"
+                        class="w-full p-2.5 rounded-lg border border-gray-300 text-gray-900 text-sm focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:text-white">
+                        <option [ngValue]="null">--Select Role--</option>
+                        <option *ngFor="let role of roles" [value]="role.id">{{ role.role.replace('ROLE_', '') }}
+                        </option>
+                    </select>
+                    <div *ngIf="NewUserDto.get('roleId')?.touched && NewUserDto.get('roleId')?.invalid">
+                        <span class="text-red-600 text-sm">Role is required</span>
+                    </div>
+                </div>
+
+                <button type="submit" (click)="createUser()" [disabled]="NewUserDto.invalid"
+                    class="flex items-center justify-center gap-2 w-full md:w-fit mx-auto text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 disabled:opacity-50 disabled:cursor-not-allowed">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                    Add new User
+                </button>
+
+            </form>
+        </div>
+    </div>
+</div>

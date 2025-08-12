@@ -25,8 +25,8 @@
                     <button class="block md:hidden">☰ Menu</button>
                 </ng-container>
                 
-                <app-sidebar [routerLink]="['/home']" routerLinkActive="router-link-active"
-                    class="hover:text-blue-700 transition">Home</app-sidebar>
+                <a [routerLink]="['/home']" routerLinkActive="router-link-active"
+                    class="hover:text-blue-700 cursor-pointer transition">Home</a>
                 <a [routerLink]="['/about']" routerLinkActive="router-link-active"
                     class="hover:text-blue-700 transition">About</a>
                 <a [routerLink]="['/contact']" routerLinkActive="router-link-active"

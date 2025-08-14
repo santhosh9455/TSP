@@ -2,177 +2,242 @@
   <div class="max-w-9xl mx-auto">
     <!-- Header -->
     <div class="text-center mb-8">
-      <h1 class="text-3xl font-bold text-green-800">Online Admission Application 2025-2026</h1>
+      <h1 class="text-3xl font-bold text-green-600">Online Admission Application 2025-2026</h1>
       <p>Don Bosco College, Yelagiri Hills</p>
     </div>
 
     <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data" class="space-y-8">
-      
+
       <!-- BASIC DETAILS -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Basic Details</h3>
-        
+        <h3 class="text-xl font-semibold text-white bg-green-600 rounded-br-4xl px-4 py-2 mb-6 w-fit">Basic Details</h3>
+
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <!-- Applicant's First Name -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Applicant's First Name <span class="text-red-600">*</span></label>
-            <input formControlName="firstName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter first name">
+            <label class="block text-gray-700 font-semibold mb-2">Applicant's First Name <span
+                class="text-red-600">*</span></label>
+            <input formControlName="firstName" type="text" [ngClass]="{
+      'focus:ring-red-500 focus:border-red-500 border-2 border-red-500': isInvalid('firstName'),
+      'focus:ring-teal-500 focus:border-teal-500': !isInvalid('firstName')
+    }" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2"
+              placeholder="Enter first name" />
             <div class="text-blue-500 text-sm mt-1">As per Aadhar Card</div>
-            <div *ngIf="isInvalid('firstName')" class="text-red-500 text-xs mt-1">First name is required</div>
+            <div *ngIf="isInvalid('firstName')" class="text-red-500 font-bold text-xs mt-1">First name is required</div>
           </div>
 
           <!-- Applicant's Last Name -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Applicant's Last Name <span class="text-red-600">*</span></label>
-            <input formControlName="lastName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter last name">
+            <label class="block text-gray-700 font-semibold mb-2">Applicant's Last Name <span
+                class="text-red-600">*</span></label>
+            <input formControlName="lastName" type="text" [ngClass]="{
+              'focus:ring-red-500 focus:border-red-500 border-2 border-red-500': isInvalid('lastName'),
+              'focus:ring-teal-500 focus:border-teal-500': !isInvalid('lastName')
+            }" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter last name">
             <div class="text-blue-500 text-sm mt-1">As per Aadhar Card</div>
-            <div *ngIf="isInvalid('lastName')" class="text-red-500 text-xs mt-1">Last name is required</div>
+            <div *ngIf="isInvalid('lastName')" class="text-red-500 font-bold text-xs mt-1">Last name is required</div>
           </div>
 
           <!-- Programme Level -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Programme Level <span class="text-red-600">*</span></label>
-            <select formControlName="programmeLevel"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-              <option value="">Select Programme Level</option>
-              <option value="undergraduate">Undergraduate</option>
-              <option value="postgraduate">Postgraduate</option>
-              <option value="diploma">Diploma</option>
-            </select>
-            <div *ngIf="isInvalid('programmeLevel')" class="text-red-500 text-xs mt-1">Programme level is required</div>
+            <label class="block text-gray-700 font-semibold mb-2">Programme Level <span
+                class="text-red-600">*</span></label>
+            <ng-select formControlName="programmeLevel" [items]="programmeLevels" bindLabel="label" bindValue="value"
+              [ngClass]="{
+                'focus:ring-red-600 focus:border-red-600 border-red-500 border-2': isInvalid('programmeLevel'),
+                'focus:ring-teal-500 focus:border-teal-500 ': !isInvalid('programmeLevel')
+              }" placeholder="Select Programme Level" [searchable]="true" [clearable]="false"
+              class="w-full px-3 py-2 border cursor-pointer hover:cursor-pointer border-gray-300 rounded-md focus:outline-none focus:ring-2">
+
+            </ng-select>
+            <div *ngIf="isInvalid('programmeLevel')" class="text-red-500 font-bold text-xs mt-1">Programme level is
+              required</div>
           </div>
 
-          <!-- Programme of Study -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Programme of Study <span class="text-red-600">*</span></label>
-            <select formControlName="programmeOfStudy"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-              <option value="">Select Programme</option>
-              <option value="computer-science">Computer Science</option>
-              <option value="engineering">Engineering</option>
-              <option value="business">Business</option>
-              <option value="arts">Arts</option>
-            </select>
-            <div *ngIf="isInvalid('programmeOfStudy')" class="text-red-500 text-xs mt-1">Programme of study is required</div>
+            <label class="block text-gray-700 font-semibold mb-2">
+              Programme of Study <span class="text-red-600">*</span>
+            </label>
+
+            <ng-select formControlName="departmentId" [items]="filterDept" bindLabel="departmentName" bindValue="id"
+              [ngClass]="{
+              'focus:ring-red-600 focus:border-red-600 border-2 border-red-500': isInvalid('departmentId'),
+              'focus:ring-teal-500 focus:border-teal-500 ': !isInvalid('departmentId')
+            }" placeholder="Select Programme of Study" [searchable]="true" [clearable]="false"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none cursor-pointer focus:ring-2">
+            </ng-select>
+
+            <ng-template ng-notfound-tmp>
+              <div class="flex flex-col items-center justify-center py-4 text-gray-500">
+                <!-- Simple SVG Icon -->
+                <svg xmlns="http://www.w3.org/2000/svg" class="w-10 h-10 mb-2 text-gray-400" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M9 17v-2a4 4 0 014-4h4m0 0l-3-3m3 3l-3 3" />
+                </svg>
+              </div>
+            </ng-template>
+            <div *ngIf="isInvalid('departmentId')" class="text-red-500 font-bold text-xs mt-1">
+              Programme of study is required
+            </div>
           </div>
 
           <!-- Date of Birth -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Date of Birth <span class="text-red-600">*</span></label>
+            <label class="block text-gray-700 font-semibold mb-2">Date of Birth <span
+                class="text-red-600">*</span></label>
             <div class="relative">
-              <input formControlName="dateOfBirth" type="date"
-                     class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 appearance-none cursor-pointer bg-white"
-                     placeholder="Select Date">
+              <input formControlName="dateOfBirth" type="date" [ngClass]="{
+                'focus:ring-red-600 focus:border-red-600 border-2 border-red-500': isInvalid('dateOfBirth'),
+                'focus:ring-teal-500 focus:border-teal-500 ': !isInvalid('dateOfBirth')
+              }" class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2"
+                placeholder="Select Date">
               <div class="absolute inset-y-0 right-0 flex items-center pr-3 pointer-events-none">
                 <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path>
                 </svg>
               </div>
             </div>
-            <div *ngIf="isInvalid('dateOfBirth')" class="text-red-500 text-xs mt-1">Date of birth is required</div>
+            <div *ngIf="isInvalid('dateOfBirth')" class="text-red-500 font-boldtext-xs mt-1">Date of birth is required
+            </div>
           </div>
 
           <!-- Age -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Age</label>
             <input formControlName="age" type="number" readonly
-                   class="w-full px-3 py-2 border cursor-not-allowed border-gray-300 rounded-md bg-gray-100">
+              class="w-16 px-3 py-2 border cursor-not-allowed border-gray-300 rounded-md bg-gray-100">
           </div>
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Gender (Female Only) <span class="text-red-600">*</span></label>
+            <label class="block text-gray-700 font-semibold mb-2">Gender<span class="text-red-600">*</span></label>
             <select formControlName="gender"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
               <option value="">Select Gender</option>
-              <option value="female">Female</option>
+              <option value="Male">Male</option>
+              <option value="Female">Female</option>
+              <option value="Other">Other</option>
             </select>
-            <div *ngIf="isInvalid('gender')" class="text-red-500 text-xs mt-1">Gender is required</div>
+            <div *ngIf="isInvalid('gender')" class="text-red-500 font-bold text-xs mt-1">Gender is required</div>
           </div>
 
           <!-- Applicant Photo -->
-          <div class="md:col-span-2 lg:col-span-1">
-            <label class="block text-gray-700 font-semibold mb-2">Applicant Photo <span class="text-red-600">*</span></label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-teal-400 transition-colors">
-              <div class="text-4xl text-gray-400 mb-2">+</div>
-              <div class="text-gray-600 font-medium">Upload Profile Photo</div>
-              <div class="text-sm text-gray-500 mt-2">Allowed formats: .jpg, .png, .jpeg</div>
-              <div class="text-sm text-gray-500">Max size: 100 KB</div>
-              <input type="file" formControlName="profileImagePath" accept="image/png,image/jpeg,image/jpg"
-                     class="hidden" id="profileImagePath">
-              <label for="profileImagePath" class="cursor-pointer">
-                <div class="mt-3 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors">
-                  Choose File
-                </div>
-              </label>
+          <div class="ml-20">
+            <label class="block  text-gray-800 font-semibold mb-2">
+              Profile Image <span class="text-red-600">*</span>
+            </label>
+
+            <!-- Upload Box with Preview -->
+            <label
+              class="flex flex-col items-center justify-center w-2/3 px-4 py-5 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors overflow-hidden relative">
+
+              <!-- If preview exists, show image -->
+              <img *ngIf="profilePreview" [src]="profilePreview" alt="Profile Preview"
+                class="w-24 h-24 rounded-full object-cover mb-2 border" />
+
+              <!-- If no preview, show icon -->
+              <ng-container *ngIf="!profilePreview">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-gray-500 mb-2" fill="none"
+                  viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                    d="M5.121 17.804A10.97 10.97 0 0112 15c2.486 0 4.779.815 6.879 2.197M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="text-sm text-gray-600">Click to upload profile image</span>
+              </ng-container>
+
+              <input #profileInput type="file" (change)="onProfileSelected($event)" accept="image/*" class="hidden" />
+            </label>
+
+            <!-- File Name & Clear -->
+            <div class="mt-2 flex gap-2 items-center" *ngIf="registerForm.get('profileImage')?.value">
+              <span class="text-sm text-gray-700 font-medium">
+                {{ registerForm.get('profileImage')?.value?.name }}
+              </span>
+              <button type="button" (click)="clearFile('profileImage', profileInput)"
+                class="text-red-500 hover:text-red-700 text-xs underline">
+                Clear
+              </button>
             </div>
-            <div *ngIf="isInvalid('profileImagePath')" class="text-red-500 text-xs mt-1">Profile photo is required</div>
+            <!-- Validation -->
+            <div *ngIf="isInvalid('profileImage')" class="text-red-500 text-xs font-bold mt-1">
+              Profile image is required
+            </div>
           </div>
+
+
         </div>
       </div>
 
       <!-- PERSONAL DETAILS -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Personal Details</h3>
-        
+        <h3 class="text-xl font-semibold text-white bg-green-600 rounded-br-4xl px-4 py-2 mb-6 w-fit">Personal Details
+        </h3>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Mobile -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Mobile <span class="text-red-600">*</span></label>
-            <input formControlName="phoneNumber" type="tel"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter mobile number">
-            <div *ngIf="isInvalid('phoneNumber')" class="text-red-500 text-xs mt-1">Mobile number is required</div>
+            <input formControlName="phoneNumber" type="text" (keypress)="allowOnlyNumbers($event)" [ngClass]="{
+                'focus:ring-red-600 focus:border-red-600 border-0 border-red-500': isInvalid('phoneNumber'),
+                'focus:ring-teal-500 focus:border-teal-500  ': !isInvalid('phoneNumber')
+              }"
+              class="w-full px-3 py-2 form-control border border-gray-300 rounded-md focus:outline-none focus:ring-2"
+              placeholder="Enter mobile number">
+            <div *ngIf="isInvalid('phoneNumber')" class="text-red-500 font-bold text-xs mt-1">Mobile number is required
+            </div>
           </div>
 
           <!-- Email -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Email <span class="text-red-600">*</span></label>
             <input formControlName="email" type="email"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter email address">
-            <div *ngIf="isInvalid('email')" class="text-red-500 text-xs mt-1">Valid email is required</div>
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter email address">
+            <div *ngIf="isInvalid('email')" class="text-red-500 font-bold text-xs mt-1">Valid email is required</div>
           </div>
 
           <!-- UID (Aadhar) -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">UID (Aadhar / Unique) <span class="text-red-600">*</span></label>
-            <input formControlName="aadharNumber" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter Aadhar number">
-            <div *ngIf="isInvalid('aadharNumber')" class="text-red-500 text-xs mt-1">Aadhar number is required</div>
+            <label class="block text-gray-700 font-semibold mb-2">UID (Aadhar / Unique) <span
+                class="text-red-600">*</span></label>
+            <input formControlName="aadharNumber" type="text" (keypress)="allowOnlyNumbers($event)"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter Aadhar number">
+            <div *ngIf="isInvalid('aadharNumber')" class="text-red-500 font-bold text-xs mt-1">Aadhar number is required
+            </div>
           </div>
         </div>
       </div>
 
       <!-- FAMILY DETAILS -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Family Details</h3>
-        
+        <h3 class="text-xl font-semibold text-white bg-green-600 rounded-br-4xl px-4 py-2 mb-6 w-fit">Family Details
+        </h3>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Father Name -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Father Name</label>
             <input formControlName="fatherName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter father's name">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter father's name">
           </div>
 
           <!-- Father's Mobile -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Father's Mobile No</label>
             <input formControlName="fatherMobile" type="tel"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter father's mobile">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter father's mobile">
           </div>
 
           <!-- Father Occupation -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Father Occupation</label>
             <select formControlName="fatherOccupation"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
               <option value="">Select</option>
               <option value="business">Business</option>
               <option value="service">Service</option>
@@ -185,23 +250,23 @@
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Mother Name</label>
             <input formControlName="motherName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter mother's name">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter mother's name">
           </div>
 
           <!-- Mother's Mobile -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Mother's Mobile No</label>
             <input formControlName="motherMobile" type="tel"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter mother's mobile">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter mother's mobile">
           </div>
 
           <!-- Mother Occupation -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Mother Occupation</label>
             <select formControlName="motherOccupation"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
               <option value="">Select</option>
               <option value="homemaker">Homemaker</option>
               <option value="business">Business</option>
@@ -209,89 +274,101 @@
               <option value="other">Other</option>
             </select>
           </div>
-          
+
           <!-- Guardian Name -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Name of the Guardian</label>
             <input formControlName="guardianName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter guardian name">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter guardian name">
           </div>
         </div>
       </div>
 
       <!-- ADDRESS DETAILS -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Address Details</h3>
-        
+        <h3 class="text-xl font-semibold text-white bg-green-600 rounded-br-4xl px-4 py-2 mb-6 w-fit">Address Details
+        </h3>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- Street -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Street <span class="text-red-600">*</span></label>
             <input formControlName="street" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter street address">
-            <div *ngIf="isInvalid('street')" class="text-red-500 text-xs mt-1">Street address is required</div>
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter street address">
+            <div *ngIf="isInvalid('street')" class="text-red-500 font-bold text-xs mt-1">Street address is required
+            </div>
           </div>
 
           <!-- City/Town/Village -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">City / Town / Village</label>
+            <label class="block text-gray-700 font-semibold mb-2">City / Town / Village <span
+                class="text-red-600">*</span></label>
             <input formControlName="city" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter city/town/village">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter city/town/village">
+            <div *ngIf="isInvalid('city')" class="text-red-500 font-bold text-xs mt-1">city is required</div>
           </div>
 
           <!-- Taluk -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Taluk</label>
+            <label class="block text-gray-700 font-semibold mb-2">Taluk <span class="text-red-600">*</span></label>
             <input formControlName="taluk" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter taluk">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter taluk">
+            <div *ngIf="isInvalid('taluk')" class="text-red-500  font-bold text-xs mt-1">taluk is required</div>
           </div>
 
           <!-- District -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">District</label>
-            <select formControlName="district"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
-              <option value="cuddalore">Cuddalore</option>
-              <option value="chennai">Chennai</option>
-              <option value="coimbatore">Coimbatore</option>
-              <option value="madurai">Madurai</option>
-            </select>
+            <label class="block text-gray-700 font-semibold mb-2">District <span class="text-red-600">*</span></label>
+            <ng-select formControlName="district" [items]="Districts" placeholder="Select Programme of Study"
+              [searchable]="true" [clearable]="false"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500 cursor-pointer bg-white">
+            </ng-select>
+
+            <div *ngIf="isInvalid('district')" class="text-red-500 font-bold  text-xs mt-1">district is required</div>
           </div>
+
 
           <!-- Pincode -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Pincode <span class="text-red-600">*</span></label>
-            <input formControlName="pincode" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter pincode">
-            <div *ngIf="isInvalid('pincode')" class="text-red-500 text-xs mt-1">Pincode is required</div>
+            <label class="block text-gray-700 font-semibold mb-2">
+              Pincode <span class="text-red-600">*</span>
+            </label>
+            <input formControlName="pincode" type="text" maxlength="6" (keypress)="allowOnlyNumbers($event)"
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter pincode" />
+            <div *ngIf="isInvalid('pincode')" class="text-red-500 text-xs font-bold mt-1">
+              Pincode is required and must be 6 digits
+            </div>
           </div>
         </div>
       </div>
 
       <!-- ACADEMIC DETAILS -->
       <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Academic Details</h3>
-        
+        <h3 class="text-xl font-semibold text-white bg-green-600 rounded-br-4xl px-4 py-2 mb-6 w-fit">Academic Details
+        </h3>
+
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <!-- School/College Name -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">Name of the School/College Studied <span class="text-red-600">*</span></label>
+            <label class="block text-gray-700 font-semibold mb-2">Name of the School/College Studied <span
+                class="text-red-600">*</span></label>
             <input formControlName="schoolName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter school/college name">
-            <div *ngIf="isInvalid('schoolName')" class="text-red-500 text-xs mt-1">School/college name is required</div>
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter school/college name">
+            <div *ngIf="isInvalid('schoolName')" class="text-red-500 font-bold text-xs mt-1">School/college name is
+              required</div>
           </div>
 
           <!-- Hostel/Bus Service -->
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Do you require Hostel or Bus service?</label>
             <select formControlName="hostelBusService"
-                    class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500">
               <option value="">Select</option>
               <option value="hostel">Hostel</option>
               <option value="bus">Bus</option>
@@ -303,85 +380,111 @@
           <div>
             <label class="block text-gray-700 font-semibold mb-2">Boarding Point</label>
             <input formControlName="boardingPoint" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter boarding point">
-          </div>
-
-          <!-- University Name -->
-          <div>
-            <label class="block text-gray-700 font-semibold mb-2">Name of the University</label>
-            <input formControlName="universityName" type="text"
-                   class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
-                   placeholder="Enter university name">
+              class="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-teal-500 focus:border-teal-500"
+              placeholder="Enter boarding point">
           </div>
         </div>
-      </div>
+        <div class="grid grid-cols-1 mt-8 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <!-- CERTIFICATES -->
-      <div class="bg-white rounded-lg shadow-md p-6">
-        <h3 class="text-xl font-semibold text-white bg-gray-600 rounded-lg px-4 py-2 mb-6 w-fit">Certificates</h3>
-        
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          <!-- 10th Certificate -->
+          <!-- Reusable Upload Component Style -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">10th Certificate <span class="text-red-800">*</span></label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-400 transition-colors">
-              <div class="text-2xl text-gray-400 mb-2">📄</div>
-              <div class="text-gray-600 font-medium">Upload 10th Certificate</div>
-              <div class="text-sm text-gray-500 mt-2">Allowed formats: .pdf, .jpg, .png</div>
-              <input type="file" formControlName="tenthCertificate" accept=".pdf,.jpg,.png,.jpeg"
-                     class="hidden" id="tenthCertificate">
-              <label for="tenthCertificate" class="cursor-pointer">
-                <div class="mt-3 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors">
-                  Choose File
-                </div>
-              </label>
+            <label class="block text-gray-800 font-semibold mb-2">
+              10th Certificate <span class="text-red-600">*</span>
+            </label>
+
+            <label
+              class="flex items-center justify-center w-full px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4-4m0 0l-4 4m4-4v12" />
+              </svg>
+              <span class="text-sm text-gray-600">Click to upload</span>
+              <input #tenthInput type="file" (change)="onFileSelected($event, 'marksheetImage10th')"
+                accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+            </label>
+
+            <div class="mt-2 flex gap-2 items-center" *ngIf="registerForm.get('marksheetImage10th')?.value">
+              <span class="text-sm text-gray-700 font-medium">
+                {{ registerForm.get('marksheetImage10th')?.value?.name }}
+              </span>
+              <button type="button" (click)="clearFile('marksheetImage10th', tenthInput)"
+                class="text-red-500 hover:text-red-700 text-xs underline">
+                Clear
+              </button>
             </div>
-            <div *ngIf="isInvalid('tenthCertificate')" class="text-red-500 text-xs mt-1">10th certificate is required</div>
+            <div *ngIf="isInvalid('marksheetImage10th')" class="text-red-500 text-xs font-bold mt-1">
+              10th certificate is required
+            </div>
           </div>
 
-          <!-- 12th Certificate -->
+          <!-- Repeat for 12th and UG -->
           <div>
-            <label class="block text-gray-700 font-semibold mb-2">12th Certificate <span class="text-red-800">*</span></label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-400 transition-colors">
-              <div class="text-2xl text-gray-400 mb-2">📄</div>
-              <div class="text-gray-600 font-medium">Upload 12th Certificate</div>
-              <div class="text-sm text-gray-500 mt-2">Allowed formats: .pdf, .jpg, .png</div>
-              <input type="file" formControlName="twelfthCertificate" accept=".pdf,.jpg,.png,.jpeg"
-                     class="hidden" id="twelfthCertificate">
-              <label for="twelfthCertificate" class="cursor-pointer">
-                <div class="mt-3 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors">
-                  Choose File
-                </div>
-              </label>
+            <label class="block text-gray-800 font-semibold mb-2">
+              12th Certificate <span class="text-red-600">*</span>
+            </label>
+
+            <label
+              class="flex items-center justify-center w-full px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4-4m0 0l-4 4m4-4v12" />
+              </svg>
+              <span class="text-sm text-gray-600">Click to upload</span>
+              <input #twelfthInput type="file" (change)="onFileSelected($event, 'marksheetImage12th')"
+                accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+            </label>
+
+            <div class="mt-2 flex gap-2 items-center" *ngIf="registerForm.get('marksheetImage12th')?.value">
+              <span class="text-sm text-gray-700 font-medium">
+                {{ registerForm.get('marksheetImage12th')?.value?.name }}
+              </span>
+              <button type="button" (click)="clearFile('marksheetImage12th', twelfthInput)"
+                class="text-red-500 hover:text-red-700 text-xs underline">
+                Clear
+              </button>
             </div>
-            <div *ngIf="isInvalid('twelfthCertificate')" class="text-red-500 text-xs mt-1">12th certificate is required</div>
+            <div *ngIf="isInvalid('marksheetImage12th')" class="text-red-500 text-xs font-bold mt-1">
+              12th certificate is required
+            </div>
           </div>
 
-          <!-- UG Certificate (conditional on PG selection) -->
           <div *ngIf="registerForm.get('programmeLevel')?.value === 'postgraduate'">
-            <label class="block text-gray-700 font-semibold mb-2">UG Certificate <span class="text-red-800">*</span></label>
-            <div class="border-2 border-dashed border-gray-300 rounded-lg p-4 text-center hover:border-teal-400 transition-colors">
-              <div class="text-2xl text-gray-400 mb-2">📄</div>
-              <div class="text-gray-600 font-medium">Upload UG Certificate</div>
-              <div class="text-sm text-gray-500 mt-2">Allowed formats: .pdf, .jpg, .png</div>
-              <input type="file" formControlName="ugCertificate" accept=".pdf,.jpg,.png,.jpeg"
-                     class="hidden" id="ugCertificate">
-              <label for="ugCertificate" class="cursor-pointer">
-                <div class="mt-3 px-4 py-2 bg-teal-600 text-white rounded-md hover:bg-teal-700 transition-colors">
-                  Choose File
-                </div>
-              </label>
+            <label class="block text-gray-800 font-semibold mb-2">
+              UG Certificate
+            </label>
+
+            <label
+              class="flex items-center justify-center w-full px-4 py-3 bg-gray-50 border-2 border-dashed border-gray-300 rounded-lg cursor-pointer hover:border-indigo-500 hover:bg-indigo-50 transition-colors">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-gray-500 mr-2" fill="none" viewBox="0 0 24 24"
+                stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                  d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4-4m0 0l-4 4m4-4v12" />
+              </svg>
+              <span class="text-sm text-gray-600">Click to upload</span>
+              <input #ugInput type="file" (change)="onFileSelected($event, 'ugCertificate')"
+                accept=".pdf,.jpg,.jpeg,.png" class="hidden" />
+            </label>
+
+            <div class="mt-2 flex gap-2 items-center" *ngIf="registerForm.get('ugCertificate')?.value">
+              <span class="text-sm text-gray-700 font-medium">
+                {{ registerForm.get('ugCertificate')?.value?.name }}
+              </span>
+              <button type="button" (click)="clearFile('ugCertificate', ugInput)"
+                class="text-red-500 hover:text-red-700 text-xs underline">
+                Clear
+              </button>
             </div>
-            <div *ngIf="isInvalid('ugCertificate')" class="text-red-500 text-xs mt-1">UG certificate is required for PG</div>
           </div>
+
         </div>
       </div>
 
       <!-- SUBMIT BUTTON -->
       <div class="text-center">
         <button type="submit" [disabled]="registerForm.invalid"
-                class="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg shadow-md transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
+          class="px-8 py-3 bg-teal-600 hover:bg-teal-700 text-white font-semibold rounded-lg cursor-pointer shadow-md transition duration-200 disabled:opacity-50 disabled:cursor-not-allowed focus:outline-none focus:ring-2 focus:ring-teal-500 focus:ring-offset-2">
           Submit Application
         </button>
       </div>

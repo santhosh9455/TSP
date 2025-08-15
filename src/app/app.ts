@@ -12,6 +12,7 @@ import { Home } from './Components/home/home';
 import { Register } from './Components/register/register';
 import { Footer } from "./Components/footer/footer";
 
+
 @Component({
   selector: 'app-root',
   imports: [NgApexchartsModule,
@@ -19,7 +20,7 @@ import { Footer } from "./Components/footer/footer";
     Sidebar,
     RouterOutlet,
     CommonModule,
-    HttpClientModule, Footer],
+    HttpClientModule],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

@@ -23,24 +23,19 @@ export class RegisterService implements OnInit{
   }
 
 
-  registerStudent(data: any): Observable<any> {
-    const formData = new FormData();
-    Object.keys(data).forEach(key => {
-      if (data[key] instanceof File) {
-        formData.append(key, data[key]);
-      } else {
-        formData.append(key, data[key] || '');
-      }
-    });
+  registerStudent(formData: any): Observable<any> {
+    
+    
 
-    return this.mainService.post('registerRequest', formData).pipe(
+    console.log("data", formData);
+    
+    return this.http.post('http://localhost:8080/api/students/registerRequest', formData).pipe(
       catchError(this.handleError)
     );
   }
 
   private handleError(error: HttpErrorResponse) {
-    let errorMessage = 'Something Wrong.';
-
+    let errorMessage = 'Something Wrong...........';
     // Try to get server error message if available
     if (error.error instanceof ErrorEvent) {
       // Client-side error

@@ -41,7 +41,7 @@ export class Register {
     motherMobile: [''],
     motherOccupation: [''],
     guardianName: [''],
-    guardianPhone:[''],
+    guardianPhone: [''],
     // Address Details
     street: ['', Validators.required],
     city: ['', Validators.required],
@@ -67,6 +67,7 @@ export class Register {
 
   departments: departments[] = [];
   filterDept: departments[] = [];
+  isLoading: boolean = false;
 
   constructor(private registerService: RegisterService) {
     this.getDepartments();
@@ -143,53 +144,55 @@ export class Register {
     this.registerService.getDepartments().subscribe((response) => {
       this.departments = response.departments;
       this.filterDept = [...this.departments];
+    }, (error) => {
+      console.error('Error fetching departments:', error);
     });
   }
 
   profilePreview: string | ArrayBuffer | null = null;
 
-onProfileSelected(event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (input.files && input.files[0]) {
-    const file = input.files[0];
+  onProfileSelected(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
 
-    // Store in form
-    this.registerForm.patchValue({ profileImagePath: file });
-    this.registerForm.get('profileImagePath')?.updateValueAndValidity();
+      // Store in form
+      this.registerForm.patchValue({ profileImage: file });
+      this.registerForm.get('profileImage')?.updateValueAndValidity();
 
-    // Show preview
-    const reader = new FileReader();
-    reader.onload = () => {
-      this.profilePreview = reader.result;
-    };
-    reader.readAsDataURL(file);
+      // Show preview
+      const reader = new FileReader();
+      reader.onload = () => {
+        this.profilePreview = reader.result;
+      };
+      reader.readAsDataURL(file);
+    }
   }
-}
 
 
   onSubmit() {
 
     console.log("Form Submitted");
-    
-    if (this.registerForm.valid) {
-      const formData = new FormData();
-      Object.keys(this.registerForm.value).forEach(key => {
-        const value = this.registerForm.value[key];
-        if (key === 'age') return;
-        if (value instanceof File) {
-          formData.append(key, value);
-        } else if (value !== null && value !== undefined && value !== '') {
-          formData.append(key, value);
-        }
-      });
-      console.log('Form Submitted:', this.registerForm.value);
 
+    if (this.registerForm) {
+
+      
+      let formData = new FormData();
+      formData = this.registerForm.value;
+
+      
+      console.log('Form Submitted:', formData);
+
+      this.isLoading = true; // Start loading
       this.registerService.registerStudent(formData).subscribe({
         next: (response) => {
           console.log('Registration successful:', response);
+          this.registerForm.reset();
+          this.isLoading = false;
         },
         error: (error) => {
           console.error('Registration failed:', error);
+          this.isLoading = false;
         }
       });
     }

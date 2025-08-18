@@ -4,6 +4,8 @@ import { CommonModule } from '@angular/common';
 import { RegisterService, departments } from '../../Services/Student/register-service';
 import { NgSelectComponent } from '@ng-select/ng-select';
 import { tamilNaduDistricts } from '../../Interface/districs';
+import { Router } from '@angular/router';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-register',
@@ -15,6 +17,12 @@ import { tamilNaduDistricts } from '../../Interface/districs';
 export class Register {
 
   Districts: string[] = tamilNaduDistricts;
+
+  constructor(private registerService: RegisterService, private router: Router,
+    private messageService: MessageService
+  ) {
+    this.getDepartments();
+  }
 
   fb = inject(FormBuilder);
   registerForm: FormGroup = this.fb.group({
@@ -69,9 +77,7 @@ export class Register {
   filterDept: departments[] = [];
   isLoading: boolean = false;
 
-  constructor(private registerService: RegisterService) {
-    this.getDepartments();
-  }
+  
 
   ngOnInit() {
     this.registerForm.get('dateOfBirth')?.valueChanges.subscribe(date => {
@@ -142,10 +148,16 @@ export class Register {
 
   getDepartments() {
     this.registerService.getDepartments().subscribe((response) => {
+      
       this.departments = response.departments;
       this.filterDept = [...this.departments];
     }, (error) => {
       console.error('Error fetching departments:', error);
+      this.messageService.add({
+          severity: 'danger',
+          summary: 'Error Fetching Departments',
+          detail: 'There was an error fetching the departments. Please try again later.'
+        });
     });
   }
 
@@ -171,23 +183,34 @@ export class Register {
 
 
   onSubmit() {
-
     console.log("Form Submitted");
 
-    if (this.registerForm) {
+    if (this.registerForm.valid) {
+      const formData = new FormData();
 
-      
-      let formData = new FormData();
-      formData = this.registerForm.value;
+      // Loop through all form values
+      Object.keys(this.registerForm.value).forEach(key => {
+        const value = this.registerForm.get(key)?.value;
 
-      
-      console.log('Form Submitted:', formData);
+        if (value !== null && value !== undefined) {
+          // If it's a File, append directly
+          if (value instanceof File) {
+            formData.append(key, value);
+          } else {
+            // For normal fields, convert to string
+            formData.append(key, value.toString());
+          }
+        }
+      });
 
-      this.isLoading = true; // Start loading
+      console.log('FormData prepared:', Array.from(formData.entries()));
+
+      this.isLoading = true;
       this.registerService.registerStudent(formData).subscribe({
         next: (response) => {
           console.log('Registration successful:', response);
           this.registerForm.reset();
+          this.router.navigate(['/home']);
           this.isLoading = false;
         },
         error: (error) => {
@@ -197,4 +220,5 @@ export class Register {
       });
     }
   }
+
 }

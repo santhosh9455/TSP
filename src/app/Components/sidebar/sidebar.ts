@@ -19,6 +19,7 @@ export class Sidebar implements OnInit {
     this.toggleSidebar();
     this.router.navigate(['/login']);
   }
+  
   @Input() open: boolean = false;
   @Output() closeSidebar = new EventEmitter<void>();
   islogin: boolean = true; // static for now

@@ -1,7 +1,31 @@
-.router-link-active{
-    color: blue;
+.router-link-active {
+  color: blue;
+  border-bottom: 4px solid blue;
+  border-radius: 0px 0px 10px 10px;
+  padding: 2px 14px;
 }
-.router-link-active-Register{
-    color: blue;
-    background-color: rgb(240, 248, 255);
+
+/* Active Register link styling */
+.router-link-active-Register {
+  color: blue;
+  background-color: rgb(240, 248, 255);
+}
+
+/* "New" Tag */
+.new-tag {
+  background-color: #e6092e;   /* rose-500 */
+  color: white;
+  font-size: 0.65rem;
+  font-weight: bold;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  text-transform: uppercase;
+  animation: pulse 1.5s infinite;
+}
+
+/* Smooth pulse animation */
+@keyframes pulse {
+  0% { transform: scale(1); opacity: 1; }
+  50% { transform: scale(1.15); opacity: 0.8; }
+  100% { transform: scale(1); opacity: 1; }
 }

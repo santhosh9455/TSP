@@ -1,13 +1,31 @@
 import { bootstrapApplication } from '@angular/platform-browser';
-import { appConfig } from './app/app.config';
 import { App } from './app/app';
-import { HTTP_INTERCEPTORS, provideHttpClient } from '@angular/common/http';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient } from '@angular/common/http';
+
+// ✅ PrimeNG config + Theme
+import { providePrimeNG } from 'primeng/config';
+import Aura from '@primeuix/themes/aura';
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient(), // ✅ This line is mandatory for HttpClient in standalone apps
-    provideRouter(routes)
+    provideHttpClient(),
+    provideRouter(routes),
+    provideAnimations(),
+
+    providePrimeNG({
+      theme: {
+        preset: Aura,
+        options: {
+          cssLayer: {
+            name: 'primeng',
+            order: 'tailwind-base, primeng, tailwind-utilities'
+          }
+        }
+      },
+      ripple: true
+    })
   ]
 });

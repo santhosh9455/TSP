@@ -3,6 +3,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../Services/auth-service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
+
 
 @Component({
   selector: 'app-navbar',
@@ -11,11 +13,18 @@ import { FormsModule } from '@angular/forms';
   styleUrl: './navbar.css'
 })
 export class Navbar implements OnInit {
+
+  constructor(private router: Router) {
+
+  }
   ngOnInit(): void {
     this.userRoles = this.authService.getUserRole();
     this.isLoggedIn();
   }
+
   @Output() toggleSidebar = new EventEmitter<void>();
+  @Output() closeSidebar = new EventEmitter<void>();
+
 
   authService = inject(AuthService)
 
@@ -35,4 +44,14 @@ export class Navbar implements OnInit {
   onToggleSidebar() {
     this.toggleSidebar.emit();
   }
+
+  onClick() {
+    if (this.isLoggedIn()) {
+      sessionStorage.removeItem('authToken');
+    }
+    this.closeSidebar.emit(); // ✅ close sidebar
+  }
+
+
+
 }

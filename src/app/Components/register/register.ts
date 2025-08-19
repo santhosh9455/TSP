@@ -154,9 +154,9 @@ export class Register {
     }, (error) => {
       console.error('Error fetching departments:', error);
       this.messageService.add({
-          severity: 'danger',
+          severity: 'warn',
           summary: 'Error Fetching Departments',
-          detail: 'There was an error fetching the departments. Please try again later.'
+          detail: 'There was an error fetching the departments.'
         });
     });
   }
@@ -216,6 +216,11 @@ export class Register {
         error: (error) => {
           console.error('Registration failed:', error);
           this.isLoading = false;
+          this.messageService.add({
+          severity: 'warn',
+          summary: 'Failed to Register',
+          detail: 'There was an error registering the student. Please try again later.'
+        });
         }
       });
     }

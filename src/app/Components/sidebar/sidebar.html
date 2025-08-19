@@ -32,7 +32,7 @@
 
       <ul class="space-y-2 font-medium">
          <li>
-            <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active"
+            <a [routerLink]="['/admin/dashboard']" routerLinkActive="router-link-active" title="Dashboard"
                class="flex items-center p-2 h-4/5 rounded-lg text-white hover:bg-gray-700 group">
                <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-100 "
                   aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
@@ -45,7 +45,7 @@
             </a>
          </li>
          <li>
-            <a [routerLink]="['/admin/users']" routerLinkActive="router-link-active"  class="flex items-center p-2 text-gray-100 rounded-lg  hover:bg-gray-700  group">
+            <a title="Users" [routerLink]="['/admin/users']" routerLinkActive="router-link-active"  class="flex items-center p-2 text-gray-100 rounded-lg  hover:bg-gray-700  group">
                <svg
                   class="shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-100 dark:group-hover:text-white"
                   aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
@@ -56,7 +56,7 @@
             </a>
          </li>
          <li>
-            <a [routerLink]="['/admin/students']" routerLinkActive="router-link-active"
+            <a title="Students" [routerLink]="['/admin/students']" routerLinkActive="router-link-active"
                class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 group">
                <svg
                   class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-100 dark:group-hover:text-white"
@@ -71,7 +71,7 @@
             </a>
          </li>
          <li>
-            <a [routerLink]="['/admin/faculties']" routerLinkActive="router-link-active"
+            <a title="Faculties" [routerLink]="['/admin/faculties']" routerLinkActive="router-link-active"
                class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 group">
                <svg
                   class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-100 dark:group-hover:text-white"
@@ -83,7 +83,7 @@
             </a>
          </li>
          <li>
-            <a [routerLink]="['/admin/courses']" routerLinkActive="router-link-active"
+            <a title="Courses" [routerLink]="['/admin/courses']" routerLinkActive="router-link-active"
                class="flex items-center p-2 text-gray-100 rounded-lg dark:text-white hover:bg-gray-700 dark:hover:bg-gray-700 group">
                <svg
                   class="shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-100 dark:group-hover:text-white"
@@ -95,7 +95,7 @@
             </a>
          </li>
          <li>
-            <a (click)="logout()" class="flex items-center p-2 text-teal-50 rounded-lg  hover:bg-gray-700  group">
+            <a title="Logout" (click)="logout()" class="flex items-center cursor-pointer p-2 text-teal-50 rounded-lg  hover:bg-gray-700  group">
                <svg
                   class="shrink-0 w-5 h-5 text-gray-500 transition duration-75  group-hover:text-gray-100 dark:group-hover:text-white"
                   aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 18 16">

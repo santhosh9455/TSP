@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component, inject, model } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { UsersService } from '../../../Services/Admin/users-service';
-
+import { Users } from '../../../Components/users/users';
 
 @Component({
   standalone: true,
@@ -15,7 +15,7 @@ import { UsersService } from '../../../Services/Admin/users-service';
 
 export class NewUser {
 
-  constructor(private UserService: UsersService) { }
+  constructor(private UserService: UsersService, private user : Users) { }
   fb = inject(FormBuilder);
 
   showModal: boolean = false;
@@ -55,25 +55,28 @@ export class NewUser {
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
+
   createUser() {
-  if (this.NewUserDto.invalid) {
-    this.NewUserDto.markAllAsTouched();
-    return;
-  }
-
-  const newUser = this.NewUserDto.value;
-  console.log("Creating user:", newUser);
-
-  // Call service
-  this.UserService.createNewUser(newUser).subscribe({
-    next: (res) => {
-      console.log("User created:", res);
-      this.close();
-    },
-    error: (err) => {
-      console.error("Failed to create user:", err.errorMessage);
+    if (this.NewUserDto.invalid) {
+      this.NewUserDto.markAllAsTouched();
+      console.log("new user ", this.NewUserDto.value)
+      return;
     }
-  });
-}
+
+    const newUser = this.NewUserDto.value;
+    console.log("Creating user:", newUser);
+
+    // Call service
+    this.UserService.createNewUser(newUser).subscribe({
+      next: (res) => {
+        console.log("User created:", res);
+        this.close();
+        this.user.fetchUsers();
+      },
+      error: (err) => {
+        console.error("Failed to create user:", err.errorMessage);
+      }
+    });
+  }
 
 }

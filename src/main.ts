@@ -3,18 +3,19 @@ import { App } from './app/app';
 import { routes } from './app/app.routes';
 import { provideRouter } from '@angular/router';
 import { provideAnimations } from '@angular/platform-browser/animations';
-import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClient, withInterceptors } from '@angular/common/http';
 
 // ✅ PrimeNG config + Theme
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
+import { loadingInterceptor } from './app/Interceptors/loading-interceptor';
+import { MessageService } from 'primeng/api';
 
 bootstrapApplication(App, {
   providers: [
-    provideHttpClient(),
+    provideHttpClient(withInterceptors([loadingInterceptor])),
     provideRouter(routes),
     provideAnimations(),
-
     providePrimeNG({
       theme: {
         preset: Aura,
@@ -26,6 +27,7 @@ bootstrapApplication(App, {
         }
       },
       ripple: true
-    })
+    }),
+    MessageService
   ]
 });

@@ -3,7 +3,7 @@ import { inject, Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { catchError, Observable, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
-
+import { MessageService } from 'primeng/api';
 
 
 interface LoginResponse {
@@ -21,6 +21,9 @@ export class AuthService {
   private baseUrl = 'http://localhost:8080/auth';
   router = inject(Router);
 
+  constructor(private messageService: MessageService) { }
+
+
   login(credentials: { username: string; password: string }): Observable<LoginResponse> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
@@ -34,23 +37,31 @@ export class AuthService {
     );
   }
 
-  private handleError(error: HttpErrorResponse) {
+  private handleError = (error: HttpErrorResponse) => {
     let errorMessage = 'Login failed. Please try again.';
 
-    // Try to get server error message if available
     if (error.error instanceof ErrorEvent) {
-      // Client-side error
       console.error('Client error:', error.error.message);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Login Failed',
+        detail: 'Invalid username or password. Please try again.'
+      });
     } else {
-      // Server-side error
-      console.error(`Server error: ${error.status} - ${error.error?.message || error.message}`);
+      console.error(`Server error....: ${error.status} - ${error.error?.message || error.message}`);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Server error',
+        detail: error.error?.message || error.message
+      });
       if (error.error?.message) {
         errorMessage = error.error.message;
       }
     }
 
     return throwError(() => new Error(errorMessage));
-  }
+  };
+
 
   getUserRole(): string[] {
     const token = this.getToken();
@@ -85,7 +96,7 @@ export class AuthService {
       Authorization: `Bearer ${token}`
     });
   }
-  
+
   storeToken(token: string): void {
     sessionStorage.setItem('authToken', token);
   }

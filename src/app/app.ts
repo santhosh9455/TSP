@@ -8,16 +8,18 @@ import { initFlowbite } from 'flowbite';
 import { HttpClientModule } from '@angular/common/http';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { LoadingSpinner } from "./Components/loading-spinner/loading-spinner";
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 
 
 @Component({
   selector: 'app-root',
-  imports: [NgApexchartsModule,
+  imports: [NgApexchartsModule, SweetAlert2Module,
     Navbar,
-    Sidebar,ToastModule,
+    Sidebar, ToastModule,
     RouterOutlet,
     CommonModule,
-    HttpClientModule],
+    HttpClientModule, LoadingSpinner],
     providers : [ MessageService],
   templateUrl: './app.html',
   styleUrl: './app.css'

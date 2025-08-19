@@ -3,6 +3,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { AuthService } from '../../Services/auth-service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   selector: 'app-login',
@@ -18,7 +20,8 @@ export class Login {
 
   authService = inject(AuthService);
   router = inject(Router);
- 
+  messageService = inject(MessageService);
+
   public showPassword = false;
   fb = inject(FormBuilder);
 
@@ -40,6 +43,11 @@ export class Login {
         },
         error:(err)=>{
           console.log("Login Error ", err.error.errorMessage);
+          this.messageService.add({
+          severity: 'warn',
+          summary: 'Login Failed',
+          detail: 'Invalid username or password. Please try again.'
+        });
         }
       })
     }

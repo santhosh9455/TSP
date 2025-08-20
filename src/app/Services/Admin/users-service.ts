@@ -3,29 +3,15 @@ import { HttpClient, HttpParams, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth-service';
 import { MainService } from '../Main/main-service';
+import { UsersResDto } from '../../Interface/UsersResDto';
+import { CustomPageResponse } from '../../Interface/CustomPageResponse';
 
-export interface UsersResDto {
-  id: number;
-  username: string;
-  roleId: number;
-  role: string;
-  password: string;
-}
 
-export interface CustomPageResponse<T> {
-  content: T[];
-  totalElements: number;
-  totalPages: number;
-  pageSize: number;
-  pageNumber: number;
-}
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService {
-
-
 
 
   private apiUrl = 'http://localhost:8080/admin';
@@ -76,8 +62,17 @@ export class UsersService {
     );
   }
 
+
+  updateUser(userId:number, user: UsersResDto): Observable<any> {
+
+    return this.mainService.patch(`admin/updateUsers/${userId}`,user);
+  }
+
+
   deleteUser(userAuthId:number) : Observable<any> {
     return this.mainService.delete(`admin/deleteUserAuths/${userAuthId}`);
   }
 
 }
+
+

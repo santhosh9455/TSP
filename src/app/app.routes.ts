@@ -7,16 +7,29 @@ import { Login } from './Components/login/login';
 import { Home } from './Components/home/home';
 import { Register } from './Components/register/register';
 import { authGuard } from './Services/auth-gurd';
+import { Students } from './Components/students/students';
 
 export const routes: Routes = [
-  {path:'',component:Login},
+  { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: Login },
-  { path: 'home', component: Home },
   { path: 'register', component: Register },
+  { path: 'home', component: Home },
   { path: 'contact', component: Home },
-  { path: 'admin/dashboard', component: Dashboard, canActivate: [authGuard] },
-  { path: 'admin/users', component: Users, canActivate: [authGuard] },
-  { path: 'admin/faculties', component: Faculties, canActivate: [authGuard] },
-  { path: 'admin/courses', component: Courses, canActivate: [authGuard] },
 
+  // Admin module routes
+  {
+    path: 'admin',
+    canActivate: [authGuard],
+    children: [
+      { path: 'dashboard', component: Dashboard },
+      { path: 'users', component: Users },
+      { path: 'faculties', component: Faculties },
+      { path: 'courses', component: Courses },
+      { path: 'students', component: Students },
+    ]
+  },
+
+  // Wildcard (not found) route
+  { path: '**', redirectTo: 'login' }
 ];
+

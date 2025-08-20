@@ -10,7 +10,12 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { LoadingSpinner } from "./Components/loading-spinner/loading-spinner";
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
-
+// PrimeNG Modules
+import { TableModule } from 'primeng/table';
+import { InputTextModule } from 'primeng/inputtext';
+import { ButtonModule } from 'primeng/button';
+import { PaginatorModule } from 'primeng/paginator';
+import { TooltipModule } from 'primeng/tooltip';
 
 @Component({
   selector: 'app-root',
@@ -19,8 +24,13 @@ import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
     Sidebar, ToastModule,
     RouterOutlet,
     CommonModule,
-    HttpClientModule, LoadingSpinner],
-    providers : [ MessageService],
+    HttpClientModule, LoadingSpinner,
+    TableModule,
+    InputTextModule,
+    ButtonModule,
+    PaginatorModule,
+    TooltipModule],
+  providers: [MessageService],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

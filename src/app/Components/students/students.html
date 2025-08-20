@@ -1,0 +1,96 @@
+<div class="p-6 w-full mx-auto mt-4 bg-white rounded-xl shadow-lg">
+    <!-- Header with search + Add button -->
+    <div class="flex justify-between items-center mb-4">
+        <h2 class="text-lg font-semibold text-gray-700">Students</h2>
+        <div class="flex space-x-3 items-center">
+            <div class="relative">
+                <i class="pi pi-search absolute left-3 top-2 text-gray-400"></i>
+                <input type="text" placeholder="Search students..." [(ngModel)]="search" (input)="fetchStudents()"
+                    class="pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 outline-none" />
+            </div>
+            <button class="bg-purple-600 text-white px-4 py-2 rounded-lg hover:bg-purple-700">
+                + Add Student
+            </button>
+        </div>
+    </div>
+
+    <!-- Table -->
+    <table class="w-full border-collapse">
+        <thead>
+            <tr class="bg-purple-700 text-white">
+                <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('firstName')">
+                    Name
+                    <span *ngIf="sortField === 'firstName'">
+                        {{ sortOrder === 'asc' ? '▲' : '▼' }}
+                    </span>
+                </th>
+                <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('username')">
+                    Username
+                    <span *ngIf="sortField === 'username'">
+                        {{ sortOrder === 'asc' ? '▲' : '▼' }}
+                    </span>
+                </th>
+                <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('yearOfStudy')">
+                    Class
+                    <span *ngIf="sortField === 'yearOfStudy'">
+                        {{ sortOrder === 'asc' ? '▲' : '▼' }}
+                    </span>
+                </th>
+                <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('dateOfBirth')">
+                    Date of Birth
+                    <span *ngIf="sortField === 'dateOfBirth'">
+                        {{ sortOrder === 'asc' ? '▲' : '▼' }}
+                    </span>
+                </th>
+                <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('departmentName')">
+                    Department
+                    <span *ngIf="sortField === 'departmentName'">
+                        {{ sortOrder === 'asc' ? '▲' : '▼' }}
+                    </span>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let student of studentsList" class="border-b hover:bg-gray-50">
+                <td class="px-6 py-3">
+                    {{ student.firstName + ' ' + student.lastName }}
+                </td>
+                <td class="px-6 py-3">{{ student.username }}</td>
+                <td class="px-6 py-3">{{ student.yearOfStudy }}</td>
+                <td class="px-6 py-3">{{ student.dateOfBirth | date: 'dd-MM-yyyy' }}</td>
+                <td class="px-6 py-3">{{ student.departmentName }}</td>
+            </tr>
+            <tr *ngIf="studentsList.length === 0">
+                <td colspan="5" class="text-center py-4 text-gray-500">
+                    No students found.
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- Pagination -->
+    <div class="flex justify-between items-center mt-4">
+        <div class="flex items-center space-x-2">
+            <label for="pageSize" class="text-sm text-gray-600">Rows per page:</label>
+            <select id="pageSize" [(ngModel)]="size" (change)="changePageSize($any($event.target).value)"
+                class="px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-600 outline-none">
+                <option *ngFor="let s of sizes" [value]="s">{{ s }}</option>
+            </select>
+
+
+        </div>
+
+        <div class="flex items-center space-x-4">
+            <button (click)="changePage(page - 1)" [disabled]="page === 0"
+                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                Previous
+            </button>
+            <span class="text-sm"> Page {{ page + 1 }} of {{ totalPages }} </span>
+            <button (click)="changePage(page + 1)" [disabled]="page + 1 >= totalPages"
+                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                Next
+            </button>
+        </div>
+    </div>
+
+</div>

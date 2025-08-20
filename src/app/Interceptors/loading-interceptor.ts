@@ -22,7 +22,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
           confirmButtonText: 'Login',
           allowOutsideClick: false
         }).then(() => {
-          localStorage.removeItem('token'); // optional
+          sessionStorage.removeItem('authToken'); // optional
           router.navigate(['/login']);
         });
       }

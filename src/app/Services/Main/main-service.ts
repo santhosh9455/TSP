@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth-service';
@@ -16,9 +16,10 @@ export class MainService {
 
   }
 
-  get(url: string): Observable<any[]> {
-    return this.http.get<any[]>(this.baseUrl + url, {
-      headers: this.authService.getAuthHeaders()
+  get<T>(url: string, params: HttpParams): Observable<T> {
+    return this.http.get<T>(this.baseUrl + url, {
+      headers: this.authService.getAuthHeaders(),
+      params: params
     });
   }
 

@@ -1,6 +1,7 @@
 import { Component, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { UsersService, UsersResDto } from '../../Services/Admin/users-service';
+import { UsersService} from '../../Services/Admin/users-service';
+import { UsersResDto } from '../../Interface/UsersResDto';
 import { FormsModule } from '@angular/forms';
 import { debounceTime, Subject } from 'rxjs';
 import { NewUser } from '../../Models/UserModel/new-user/new-user';
@@ -125,22 +126,23 @@ export class Users {
     this.modal.open();
   }
 
-  // roles: any[] = [];
+  roles: any[] = [];
 
-  // getRoles() {
-  //   this.userService.getRoles().subscribe((response: any[]) => {
-  //     this.roles = response;
-  //   },
-  //     (error) => {
-  //       console.error('Error fetching roles:', error);
-  //     });
-  // }
+  getRoles() {
+    this.userService.getRoles().subscribe((response: any[]) => {
+      this.roles = response;
+    },
+      (error) => {
+        console.error('Error fetching roles:', error);
+      });
+  }
 
   expandedUser: any = {
     id: null,
     username: "",
     role: "",
-    password: ""
+    password: "",
+    roleId: null
   };
   
 
@@ -152,9 +154,10 @@ export class Users {
         id: user.id,
         username: user.username,
         role: user.role,
+        roleId: user.roleId,
         password: ""
       };
-      
+      this.getRoles();
     }
   }
 
@@ -171,11 +174,23 @@ export class Users {
     // TODO: call API to update
     console.log('Saving user:', user);
     if (this.expandedUser) {
-      if (this.expandedUser.password === user.password) {
-        console.log("password is same");
-        console.log("New password:", this.expandedUser.password);
-        console.log("Old password:", user.password);
-      }
+      this.userService.updateUser(this.expandedUser.id, this.expandedUser)
+      .subscribe(
+        (next) => {
+          Swal.fire(
+            'Updated..!',
+            'User updated successfully',
+            'success'
+          );
+          this.fetchUsers();
+        },(err) => {
+          Swal.fire(
+            'Error..!',
+            'there was an error in updating ' + err.message,
+            'error'
+          );
+        }
+      );
     }
     this.expandedUser = null;
   }

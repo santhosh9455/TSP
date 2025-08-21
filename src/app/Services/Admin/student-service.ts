@@ -18,7 +18,7 @@ export class StudentService {
 
   http = inject(HttpClient);
 
-  getStudents(page: number, size: number, search?: string, departmentId?: number, status?: string): Observable<CustomPageResponse<StudentResDto[]>> {
+  getStudents(page: number, size: number, search?: string, departmentId?: number, status?: string,selectedYear?:string): Observable<CustomPageResponse<StudentResDto[]>> {
 
     let params = new HttpParams()
       .set('page', page.toString())
@@ -34,6 +34,10 @@ export class StudentService {
 
     if (status) {
       params = params.set('status', status);
+    }
+
+     if (selectedYear) {
+      params = params.set('yearOfStudy', selectedYear);
     }
 
     return this.mainService.get(`admin/api/students`, params);
@@ -64,4 +68,11 @@ export class StudentService {
 
     return throwError(() => new Error(errorMessage));
   }
+
+  getFetchStudentById(id: number): Observable<StudentResDto> {
+    return this.mainService.get<StudentResDto>(`admin/getStudent/${id}`).pipe(
+      catchError(this.handleError)
+    );
+  }
+
 }

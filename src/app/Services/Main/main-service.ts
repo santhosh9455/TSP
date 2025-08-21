@@ -16,7 +16,7 @@ export class MainService {
 
   }
 
-  get<T>(url: string, params: HttpParams): Observable<T> {
+  get<T>(url: string, params?: HttpParams): Observable<T> {
     return this.http.get<T>(this.baseUrl + url, {
       headers: this.authService.getAuthHeaders(),
       params: params

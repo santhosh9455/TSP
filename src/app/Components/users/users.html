@@ -19,8 +19,8 @@
   </div>
 
   <!-- Users Table -->
-  <div class="overflow-x-auto">
-    <table class="min-w-full divide-y divide-gray-200 border">
+  <div>
+    <table class="w-full shadow-md rounded-lg">
       <!-- ✅ Table Header -->
       <thead class="bg-purple-700 text-white">
         <tr>
@@ -32,7 +32,7 @@
       </thead>
 
       <!-- ✅ Table Body -->
-      <tbody class="divide-y divide-gray-200">
+      <tbody class=" divide-y divide-gray-200 shadow-md ">
         <ng-container *ngFor="let user of users; let i = index">
           <!-- Normal Row -->
           <tr class="hover:bg-purple-100 transition-all duration-150">

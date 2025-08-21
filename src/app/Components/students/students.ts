@@ -1,33 +1,45 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { StudentResDto } from '../../Interface/studentResDto';
 import { StudentService } from '../../Services/Admin/student-service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { departments } from '../../Services/Student/register-service';
 import { MessageService } from 'primeng/api';
+import { NgSelectComponent } from "@ng-select/ng-select";
+import { StudentReportService } from '../../Services/Admin/Student/student-report-service';
+import { Router } from '@angular/router';
 
 
 @Component({
   standalone: true,
   selector: 'app-students',
-  imports: [CommonModule, DatePipe, FormsModule],
+  imports: [CommonModule, DatePipe, FormsModule, NgSelectComponent],
   templateUrl: './students.html',
   styleUrls: ['./students.css'],
 })
 export class Students implements OnInit {
 
-  constructor(private studentService: StudentService, private messageService: MessageService) { }
-  deleteStudent(_t46: StudentResDto) {
+  constructor(private studentService: StudentService,
+    private messageService: MessageService,
+    private reportService: StudentReportService,
+    private router: Router
+  ) { }
+
+
+  deleteStudent(student: StudentResDto) {
     throw new Error('Method not implemented.');
   }
-  editStudent(_t46: StudentResDto) {
-    throw new Error('Method not implemented.');
-  }
+
+  viewStudents(student: StudentResDto) {
+   this.router.navigate(['/admin/view-student'], { queryParams: { stud: student.id } });// pass ID in URL
+}
+
 
   // Toggle all rows when header checkbox changes
   toggleSelectAll(event: Event) {
     const checked = (event.target as HTMLInputElement).checked;
     this.selectedStudents = checked ? [...this.studentsList] : [];
+    console.log(this.selectedStudents);
   }
 
   // Check if a student is selected
@@ -57,11 +69,19 @@ export class Students implements OnInit {
   }
 
 
+
+  downloadReport() {
+    this.reportService.exportToCSV(this.selectedStudents, 'student-report.csv');
+  }
+
   studentsList: StudentResDto[] = [];
   selectedStudents: StudentResDto[] = [];
 
+
+
   search?: string = '';
   departmentId?: number;
+  selectedYear?: string = '';
   status?: string;
   page = 0;
   size = 5;
@@ -72,7 +92,7 @@ export class Students implements OnInit {
   sortField: keyof StudentResDto | null = 'firstName';
   sortOrder: 'asc' | 'desc' = 'asc';
 
-  
+
 
   ngOnInit(): void {
     this.fetchStudents();
@@ -83,7 +103,7 @@ export class Students implements OnInit {
     console.log("size...", this.size);
 
     this.studentService
-      .getStudents(this.page, this.size, this.search, this.departmentId, this.status)
+      .getStudents(this.page, this.size, this.search, this.departmentId, this.status, this.selectedYear)
       .subscribe({
         next: (res) => {
           this.studentsList = res.content.flat();
@@ -156,7 +176,9 @@ export class Students implements OnInit {
     this.fetchStudents();
   }
 
+  yearOfStudy: string[] = ['1st Year', '2nd Year', '3rd Year'];
 
+  selectedDepartment: number | null = null;
   departments: departments[] = [];
   filterDept: departments[] = [];
 
@@ -166,7 +188,7 @@ export class Students implements OnInit {
       this.departments = response.departments;
       // this.filterDept = [...this.departments];
       console.log(this.departments);
-      
+
     }, (error) => {
       console.error('Error fetching departments:', error);
       this.messageService.add({

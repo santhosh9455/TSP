@@ -8,6 +8,7 @@ import { Home } from './Components/home/home';
 import { Register } from './Components/register/register';
 import { authGuard } from './Services/auth-gurd';
 import { Students } from './Components/students/students';
+import { ViewStudent } from './Components/view-student/view-student';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -26,6 +27,9 @@ export const routes: Routes = [
       { path: 'faculties', component: Faculties },
       { path: 'courses', component: Courses },
       { path: 'students', component: Students },
+      { path: 'view-student', component: ViewStudent }
+
+
     ]
   },
 

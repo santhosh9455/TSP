@@ -3,6 +3,18 @@
     <div class="flex justify-between items-center mb-4">
         <h2 class="text-lg font-semibold text-gray-700">Students</h2>
         <div class="flex space-x-3 items-center">
+            <div>
+                <select class="p-2 border border-gray-300 outline-none rounded-lg" name="yearOfStudy" id="yearOfStudy">
+                    <option value="">1 Years</option>
+                    <option value="">2 Years</option>
+                    <option value="">3 Years</option>
+                </select>
+            </div>
+            <div>
+                <select class="p-2 border border-gray-300 outline-none rounded-lg" name="yearOfStudy" id="yearOfStudy">
+                    <option value="">1 Years</option>
+                </select>
+            </div>
             <div class="relative">
                 <i class="pi pi-search absolute left-3 top-2 text-gray-400"></i>
                 <input type="text" placeholder="Search students..." [(ngModel)]="search" (input)="fetchStudents()"
@@ -17,7 +29,15 @@
     <!-- Table -->
     <table class="w-full border-collapse">
         <thead>
+
             <tr class="bg-purple-700 text-white">
+                <th class="px-4 py-2 text-left">
+                    <!-- Modern select-all checkbox -->
+                    <input type="checkbox" class="w-4 h-4 text-purple-600 border-gray-300 rounded focus:ring-purple-500"
+                        [checked]="isAllSelected()" [indeterminate]="isIndeterminate()"
+                        (change)="toggleSelectAll($event)" />
+                    <span class="ml-2">S.NO</span>
+                </th>
                 <th class="px-6 py-3 text-left cursor-pointer" (click)="toggleSort('firstName')">
                     Name
                     <span *ngIf="sortField === 'firstName'">
@@ -48,10 +68,19 @@
                         {{ sortOrder === 'asc' ? '▲' : '▼' }}
                     </span>
                 </th>
+                <th>
+                    <span>Actions</span>
+                </th>
             </tr>
         </thead>
         <tbody>
-            <tr *ngFor="let student of studentsList" class="border-b hover:bg-gray-50">
+            <tr *ngFor="let student of studentsList let i = index" class="border-b hover:bg-gray-200">
+                <td class="px-4 py-2">
+                    <!-- Row checkbox -->
+                    <input type="checkbox" class="w-4 h-4 text-purple-600 border-gray-300 rounded-4xl focus:ring-purple-500"
+                        [checked]="isSelected(student)" (change)="toggleStudentSelection(student, $event)" />
+                    <span class="ml-2">{{ i + 1 }}</span>
+                </td>
                 <td class="px-6 py-3">
                     {{ student.firstName + ' ' + student.lastName }}
                 </td>
@@ -59,6 +88,10 @@
                 <td class="px-6 py-3">{{ student.yearOfStudy }}</td>
                 <td class="px-6 py-3">{{ student.dateOfBirth | date: 'dd-MM-yyyy' }}</td>
                 <td class="px-6 py-3">{{ student.departmentName }}</td>
+                <td>
+                    <button (click)="editStudent(student)" class="text-blue-500 hover:underline mr-2">Edit</button>
+                    <button (click)="deleteStudent(student)" class="text-red-500 hover:underline">Delete</button>
+                </td>
             </tr>
             <tr *ngIf="studentsList.length === 0">
                 <td colspan="5" class="text-center py-4 text-gray-500">
@@ -82,15 +115,16 @@
 
         <div class="flex items-center space-x-4">
             <button (click)="changePage(page - 1)" [disabled]="page === 0"
-                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                class="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">
                 Previous
             </button>
             <span class="text-sm"> Page {{ page + 1 }} of {{ totalPages }} </span>
             <button (click)="changePage(page + 1)" [disabled]="page + 1 >= totalPages"
-                class="px-4 py-2 bg-gray-200 rounded-lg hover:bg-gray-300 disabled:opacity-50">
+                class="px-4 py-2 bg-gray-200 rounded-lg cursor-pointer hover:bg-gray-300 disabled:opacity-50 disabled:cursor-not-allowed">
                 Next
             </button>
         </div>
     </div>
 
+    
 </div>

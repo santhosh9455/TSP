@@ -16,8 +16,8 @@ export class RegisterService implements OnInit{
   }
 
 
-  getDepartments():Observable<CustomPageResponse<departments>>{
-    return this.http.get<CustomPageResponse<departments>>('http://localhost:8080/dept/AllFilterDept').pipe(
+  getDepartments():Observable<CustomPageResponses<departments>>{
+    return this.http.get<CustomPageResponses<departments>>('http://localhost:8080/dept/AllFilterDept').pipe(
       catchError(this.handleError)
     );
   }
@@ -63,7 +63,7 @@ export interface departments{
   departmentName:string
 }
 
-export interface CustomPageResponse<T> {
+export interface CustomPageResponses<T> {
   departments: T[];
   totalItems: number;
   totalPages: number;

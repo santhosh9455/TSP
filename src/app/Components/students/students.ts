@@ -3,6 +3,9 @@ import { StudentResDto } from '../../Interface/studentResDto';
 import { StudentService } from '../../Services/Admin/student-service';
 import { CommonModule, DatePipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { departments } from '../../Services/Student/register-service';
+import { MessageService } from 'primeng/api';
+
 
 @Component({
   standalone: true,
@@ -12,6 +15,48 @@ import { FormsModule } from '@angular/forms';
   styleUrls: ['./students.css'],
 })
 export class Students implements OnInit {
+
+  constructor(private studentService: StudentService, private messageService: MessageService) { }
+  deleteStudent(_t46: StudentResDto) {
+    throw new Error('Method not implemented.');
+  }
+  editStudent(_t46: StudentResDto) {
+    throw new Error('Method not implemented.');
+  }
+
+  // Toggle all rows when header checkbox changes
+  toggleSelectAll(event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.selectedStudents = checked ? [...this.studentsList] : [];
+  }
+
+  // Check if a student is selected
+  isSelected(student: any): boolean {
+    return this.selectedStudents.some(s => s.id === student.id);
+  }
+
+  // Toggle selection of individual row
+  toggleStudentSelection(student: any, event: Event) {
+    const checked = (event.target as HTMLInputElement).checked;
+
+    if (checked) {
+      this.selectedStudents.push(student);
+    } else {
+      this.selectedStudents = this.selectedStudents.filter(s => s.id !== student.id);
+    }
+  }
+
+  // Header checkbox state (all selected)
+  isAllSelected(): boolean {
+    return this.studentsList.length > 0 && this.selectedStudents.length === this.studentsList.length;
+  }
+
+  // Header checkbox state (partially selected)
+  isIndeterminate(): boolean {
+    return this.selectedStudents.length > 0 && this.selectedStudents.length < this.studentsList.length;
+  }
+
+
   studentsList: StudentResDto[] = [];
   selectedStudents: StudentResDto[] = [];
 
@@ -27,13 +72,16 @@ export class Students implements OnInit {
   sortField: keyof StudentResDto | null = 'firstName';
   sortOrder: 'asc' | 'desc' = 'asc';
 
-  constructor(private studentService: StudentService) { }
+  
 
   ngOnInit(): void {
     this.fetchStudents();
+    this.getDepartments();
   }
 
   fetchStudents() {
+    console.log("size...", this.size);
+
     this.studentService
       .getStudents(this.page, this.size, this.search, this.departmentId, this.status)
       .subscribe({
@@ -103,10 +151,30 @@ export class Students implements OnInit {
   sizes: number[] = [5, 10, 20, 50]; // available page sizes
 
   changePageSize(newSize: string | number) {
-  this.size = Number(newSize);
-  this.page = 0; // reset to first page
-  this.fetchStudents();
-}
+    this.size = Number(newSize);
+    this.page = 0; // reset to first page
+    this.fetchStudents();
+  }
 
 
+  departments: departments[] = [];
+  filterDept: departments[] = [];
+
+  getDepartments() {
+    this.studentService.getDepartments().subscribe((response) => {
+
+      this.departments = response.departments;
+      // this.filterDept = [...this.departments];
+      console.log(this.departments);
+      
+    }, (error) => {
+      console.error('Error fetching departments:', error);
+      this.messageService.add({
+        severity: 'warn',
+        summary: 'Error Fetching Departments',
+        detail: 'There was an error fetching the departments.'
+      });
+    });
+  }
 }
+
